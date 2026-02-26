@@ -26,14 +26,9 @@ export const GAME_RULES: Record<string, GameRules> = {
     maxScorePerSecond: 10,
   },
   'sudoku': {
-    maxScore: 3000,
+    maxScore: 2500,
     minDuration: 30,
     maxScorePerSecond: 50,
-  },
-  '8ball-pool': {
-    maxScore: 1500,        // 7 balls × 100 + 300 time bonus + buffer
-    minDuration: 30,       // Minimum 30 seconds for a realistic game
-    maxScorePerSecond: 30, // Realistic scoring rate
   },
 };
 
