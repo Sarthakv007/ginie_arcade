@@ -1,68 +1,133 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="encoding" content="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>8 Ball Pool - Ginix Arcade</title>
   
   <!-- Ginix Bridge for score communication -->
   <script src="/games/ginix-bridge.js"></script>
   
   <style>
-    html, body {
+    * {
       margin: 0;
       padding: 0;
-      overflow: hidden;
-      background: #1a1a2e;
+      box-sizing: border-box;
+    }
+    html, body {
       width: 100%;
       height: 100%;
+      overflow: hidden;
+      background: #1a1a1a;
     }
     #mygame {
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
     }
     canvas {
       max-width: 100%;
       max-height: 100%;
+      display: block;
     }
   </style>
+  
+  <script>
+    // SDK Stubs - Mock all external dependencies to prevent crashes
+    
+    // Fenster (external ads)
+    window.fenster = {
+      isReady: function() { return false; },
+      showAd: function(callback) { if (callback) callback(); },
+    };
+    
+    // Famobi SDK
+    window.famobi = {
+      hasFeature: function() { return false; },
+      showAd: function(callback) { if (callback) callback(); },
+      showInterstitialAd: function(callback) { if (callback) callback(); return Promise.resolve(); },
+      showRewardedAd: function(callback) { if (callback) callback({ rewardGranted: false }); return Promise.resolve(); },
+      getVolume: function() { return 1; },
+      setVolume: function() {},
+      setPreloadProgress: function() {},
+      localStorage: {
+        getItem: function(key) { return localStorage.getItem(key); },
+        setItem: function(key, val) { localStorage.setItem(key, val); },
+        removeItem: function(key) { localStorage.removeItem(key); },
+      },
+      getAppId: function() { return "ginix-arcade"; },
+      getBrandingButtonImage: function() { return ""; },
+      getMoreGamesButtonImage: function() { return ""; },
+      getOrientation: function() { return "landscape"; },
+      hasRewardedAd: function() { return false; },
+      log: function() {},
+    };
+    
+    // Famobi Analytics
+    window.famobi_analytics = {
+      trackEvent: function() { return Promise.resolve(); },
+      trackScreen: function() { return Promise.resolve(); },
+      trackStats: function() { return Promise.resolve(); },
+    };
+    
+    // CrazyGames SDK
+    window.CrazyGames = {
+      SDK: {
+        game: {
+          gameplayStart: function() {},
+          gameplayStop: function() {},
+          happytime: function() {},
+          sdkGameLoadingStart: function() {},
+          sdkGameLoadingStop: function() {},
+        },
+        ad: {
+          requestAd: function() { return Promise.resolve(); },
+        },
+      },
+    };
+    
+    // Game configuration
+    window.gameID = "8-ball-pool";
+    
+    // Override SDK interface to use mock
+    window.SDK_INTERFACE_SETTINGS = {
+      isProd: true,
+      debugLevel: 0,
+      forceMockObject: true,
+      interstitial: { enabled: false },
+      rewarded: { enabled: false },
+      externalFiles: [],
+      features: {
+        auto_quality: false,
+        copyright: false,
+        credits: false,
+        external_achievements: false,
+        external_leaderboard: false,
+        external_mute: false,
+        external_pause: false,
+        external_start: false,
+        forced_mode: false,
+        leaderboard: false,
+        multiplayer: false,
+        multiplayer_local: true,
+        skip_title: false,
+        skip_tutorial: false,
+        revive: false,
+        rewarded: false,
+      },
+    };
+    
+    // Mock SDK Interface functions
+    window.SDK_INTERFACE_INIT = function() { return Promise.resolve(); };
+    window.SDK_INTERFACE_MOCK_OBJECT = function() { return Promise.resolve(); };
+  </script>
 </head>
 <body>
   <center><div id="mygame"></div></center>
   
   <!-- Game Scripts -->
-  <script>
-    window.gameID = "8ball-pool";
-    
-    // Disable external SDKs
-    window.famobi_analytics = {
-      trackScreen: function() {},
-      trackEvent: function() {},
-      trackStats: function() {}
-    };
-    window.famobi = {
-      localStorage: {
-        getItem: function(key) { return localStorage.getItem(key); },
-        setItem: function(key, val) { localStorage.setItem(key, val); },
-        removeItem: function(key) { localStorage.removeItem(key); }
-      },
-      hasFeature: function() { return false; },
-      showAd: function() {},
-      log: function() {}
-    };
-    
-    // Track game state for scoring
-    window._8ballGameState = {
-      ballsPocketed: 0,
-      gameStartTime: Date.now(),
-      sessionStarted: false
-    };
-  </script>
-  
   <script src="assets/src/01phaser.js"></script>
   <script src="assets/src/02Ball.js"></script>
   <script src="assets/src/03contactListener.js"></script>
