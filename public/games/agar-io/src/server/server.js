@@ -14,8 +14,12 @@ const config = require('../../config');
 const util = require('./lib/util');
 const mapUtils = require('./map/map');
 const {getPosition} = require("./lib/entityUtils");
+const {BotManager} = require('./bot/botManager');
 
 let map = new mapUtils.Map(config);
+
+// Initialize bot manager
+const botManager = new BotManager(config);
 
 let sockets = {};
 let spectators = [];
@@ -212,7 +216,8 @@ const addSpectator = (socket) => {
 }
 
 const tickPlayer = (currentPlayer) => {
-    if (currentPlayer.lastHeartbeat < new Date().getTime() - config.maxHeartbeatInterval) {
+    // Skip heartbeat check for bots
+    if (!currentPlayer.isBot && currentPlayer.lastHeartbeat < new Date().getTime() - config.maxHeartbeatInterval) {
         sockets[currentPlayer.id].emit('kick', 'Last heartbeat received over ' + config.maxHeartbeatInterval + ' ago.');
         sockets[currentPlayer.id].disconnect();
     }
@@ -264,6 +269,9 @@ const tickPlayer = (currentPlayer) => {
 };
 
 const tickGame = () => {
+    // Update bot AI before moving players
+    botManager.updateBots(map, config.gameWidth, config.gameHeight);
+    
     map.players.data.forEach(tickPlayer);
     map.massFood.move(config.gameWidth, config.gameHeight);
 
@@ -276,7 +284,14 @@ const tickGame = () => {
         if (playerDied) {
             let playerGotEaten = map.players.data[gotEaten.playerIndex];
             io.emit('playerDied', { name: playerGotEaten.name }); //TODO: on client it is `playerEatenName` instead of `name`
-            sockets[playerGotEaten.id].emit('RIP');
+            
+            // Handle bot death - schedule respawn
+            if (playerGotEaten.isBot) {
+                botManager.handleBotDeath(playerGotEaten.id);
+            } else {
+                sockets[playerGotEaten.id].emit('RIP');
+            }
+            
             map.players.removePlayerByIndex(gotEaten.playerIndex);
         }
     });
@@ -307,14 +322,20 @@ const gameloop = () => {
     }
 
     map.balanceMass(config.foodMass, config.gameMass, config.maxFood, config.maxVirus);
+    
+    // Process bot respawns and maintain minimum bot count
+    botManager.processRespawns(map, generateSpawnpoint, config.defaultPlayerMass);
 };
 
 const sendUpdates = () => {
     spectators.forEach(updateSpectator);
     map.enumerateWhatPlayersSee(function (playerData, visiblePlayers, visibleFood, visibleMass, visibleViruses) {
-        sockets[playerData.id].emit('serverTellPlayerMove', playerData, visiblePlayers, visibleFood, visibleMass, visibleViruses);
-        if (leaderboardChanged) {
-            sendLeaderboard(sockets[playerData.id]);
+        // Skip socket emissions for bots (they don't have socket connections)
+        if (!playerData.isBot && sockets[playerData.id]) {
+            sockets[playerData.id].emit('serverTellPlayerMove', playerData, visiblePlayers, visibleFood, visibleMass, visibleViruses);
+            if (leaderboardChanged) {
+                sendLeaderboard(sockets[playerData.id]);
+            }
         }
     });
 
@@ -350,4 +371,12 @@ setInterval(sendUpdates, 1000 / config.networkUpdateFactor);
 // Don't touch, IP configurations.
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || process.env.IP || config.host;
 var serverport = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || config.port;
-http.listen(serverport, ipaddress, () => console.log('[DEBUG] Listening on ' + ipaddress + ':' + serverport));
+http.listen(serverport, ipaddress, () => {
+    console.log('[DEBUG] Listening on ' + ipaddress + ':' + serverport);
+    
+    // Initialize bots after server starts
+    setTimeout(() => {
+        botManager.initialize(map, generateSpawnpoint, config.defaultPlayerMass);
+        console.log('[BOT] Bot system initialized');
+    }, 1000);
+});
