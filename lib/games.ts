@@ -60,6 +60,18 @@ export const games: Game[] = [
     category: "Puzzle",
     gamePath: "/games/tilenova/index.html",
   },
+  {
+    id: "snake-io",
+    uuid: "c8d4e5f6-9a1b-4c2d-8e3f-0a7b8c9d1e2f",
+    title: "Snake.io",
+    description: "Grow your snake by eating food, trap other snakes, and dominate the arena! Enhanced multiplayer with 15+ bots and blockchain XP rewards.",
+    icon: "Worm",
+    color: "cyan",
+    players: 0,
+    highScore: 0,
+    category: "Arcade",
+    gamePath: "/games/snake-io/index.html",
+  },
 ]
 
 export function getGameById(id: string): Game | undefined {

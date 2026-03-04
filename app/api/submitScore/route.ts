@@ -207,6 +207,7 @@ export async function POST(request: NextRequest) {
       'tilenova': 'TileNova: Circuit Surge',
       'flappy': 'Flappy Bird',
       'sudoku': 'Sudoku: Roast Mode',
+      'snake-io': 'Snake.io',
     };
     let scoreNFT: { txHash: string; tokenId: number } | null = null;
     const isNewHighScore = !existingEntry || (existingEntry && score > existingEntry.score);
@@ -419,7 +420,11 @@ const BADGE_DEFS = [
   { id: 'tilenova-5000', name: 'Circuit Surge Master', description: 'Score 5,000+ in TileNova', tier: 'gold', category: 'tilenova', check: (_s: number, _x: number, h: Record<string, number>) => (h['tilenova'] || 0) >= 5000, value: 5000 },
   { id: 'sudoku-500', name: 'Puzzle Solver', description: 'Score 500+ in Sudoku: Roast Mode', tier: 'bronze', category: 'sudoku', check: (_s: number, _x: number, h: Record<string, number>) => (h['sudoku'] || 0) >= 500, value: 500 },
   { id: 'sudoku-1500', name: 'Roast Survivor', description: 'Score 1,500+ in Sudoku: Roast Mode', tier: 'gold', category: 'sudoku', check: (_s: number, _x: number, h: Record<string, number>) => (h['sudoku'] || 0) >= 1500, value: 1500 },
-  { id: 'all-rounder', name: 'All-Rounder', description: 'Play all games', tier: 'silver', category: 'multi', check: (_s: number, _x: number, h: Record<string, number>) => Object.keys(h).length >= 4, value: 4 },
+  { id: 'snake-50', name: 'Snake Hatchling', description: 'Reach length 50 in Snake.io', tier: 'bronze', category: 'snake', check: (_s: number, _x: number, h: Record<string, number>) => (h['snake-io'] || 0) >= 50, value: 50 },
+  { id: 'snake-100', name: 'Serpent Slayer', description: 'Reach length 100 in Snake.io', tier: 'silver', category: 'snake', check: (_s: number, _x: number, h: Record<string, number>) => (h['snake-io'] || 0) >= 100, value: 100 },
+  { id: 'snake-200', name: 'Viper King', description: 'Reach length 200 in Snake.io', tier: 'gold', category: 'snake', check: (_s: number, _x: number, h: Record<string, number>) => (h['snake-io'] || 0) >= 200, value: 200 },
+  { id: 'snake-500', name: 'Anaconda Legend', description: 'Reach length 500 in Snake.io', tier: 'platinum', category: 'snake', check: (_s: number, _x: number, h: Record<string, number>) => (h['snake-io'] || 0) >= 500, value: 500 },
+  { id: 'all-rounder', name: 'All-Rounder', description: 'Play all games', tier: 'silver', category: 'multi', check: (_s: number, _x: number, h: Record<string, number>) => Object.keys(h).length >= 5, value: 5 },
 ];
 
 /**
