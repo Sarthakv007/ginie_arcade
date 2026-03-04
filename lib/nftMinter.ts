@@ -28,6 +28,7 @@ const GAME_IDS: Record<string, number> = {
   'tilenova': 2,
   'flappy': 3,
   'sudoku': 4,
+  'snake-io': 5,
   'session': 0,
   'xp': 0,
   'multi': 0,
@@ -41,6 +42,7 @@ const CATEGORY_TO_TYPE: Record<string, number> = {
   neon: ACHIEVEMENT_TYPES.highscore,
   tilenova: ACHIEVEMENT_TYPES.highscore,
   sudoku: ACHIEVEMENT_TYPES.highscore,
+  snake: ACHIEVEMENT_TYPES.highscore,
   multi: ACHIEVEMENT_TYPES.special,
 };
 
@@ -149,10 +151,16 @@ export async function mintScoreNFT(
     const gameIndex = GAME_IDS[gameId] || 0;
 
     // Build on-chain metadata as a data-URI (lightweight, no IPFS needed for scores)
+    const badgeImage = gameId === 'neon-sky-runner' ? 'neon-1000' 
+      : gameId === 'tilenova' ? 'tilenova-500' 
+      : gameId === 'sudoku' ? 'sudoku-500' 
+      : gameId === 'snake-io' ? 'snake-50' 
+      : 'flappy-10';
+    
     const metadata = {
       name: `${gameName} Score: ${score}`,
       description: `Achieved score of ${score} in ${gameName} on Ginix Arcade`,
-      image: `https://giniearcade2.vercel.app/badges/${gameId === 'neon-sky-runner' ? 'neon-1000' : gameId === 'tilenova' ? 'tilenova-500' : gameId === 'sudoku' ? 'sudoku-500' : 'flappy-10'}.png`,
+      image: `https://giniearcade2.vercel.app/badges/${badgeImage}.png`,
       attributes: [
         { trait_type: 'Game', value: gameName },
         { trait_type: 'Score', value: score },

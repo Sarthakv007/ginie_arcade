@@ -30,6 +30,11 @@ export const GAME_RULES: Record<string, GameRules> = {
     minDuration: 30,
     maxScorePerSecond: 50,
   },
+  'snake-io': {
+    maxScore: 1000,
+    minDuration: 5,
+    maxScorePerSecond: 20,
+  },
 };
 
 export interface ValidationResult {
