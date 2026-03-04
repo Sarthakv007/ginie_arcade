@@ -29,6 +29,11 @@ const GAME_CONFIG: Record<string, { name: string; url: string; icon: string }> =
     url: '/games/sudoku/index.html',
     icon: '🔥',
   },
+  'snake-io': {
+    name: 'Snake.io',
+    url: '/games/snake-io/index.html',
+    icon: '🐍',
+  },
 };
 
 export default function GamePlayer() {

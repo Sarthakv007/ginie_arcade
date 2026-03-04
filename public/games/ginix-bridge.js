@@ -164,6 +164,31 @@
       this.isGameActive = true;
       this._gameEndSent = false;
       this.startTime = Date.now();
+    },
+
+    // Submit XP to blockchain (used by Snake.io and other games)
+    submitXP(xpAmount) {
+      return new Promise((resolve, reject) => {
+        if (!xpAmount || xpAmount <= 0) {
+          reject(new Error('Invalid XP amount'));
+          return;
+        }
+        
+        _realLog('[Ginix Bridge] Submitting XP:', xpAmount);
+        
+        // Treat XP submission as game end with score = XP
+        this.currentScore = xpAmount;
+        this.onGameEnd();
+        
+        // Simulate async blockchain submission
+        setTimeout(() => {
+          resolve({
+            success: true,
+            xp: xpAmount,
+            timestamp: Date.now()
+          });
+        }, 500);
+      });
     }
   };
 
