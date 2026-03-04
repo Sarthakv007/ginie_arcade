@@ -67,12 +67,13 @@ class Bot {
      * Calculate AI target based on nearby players and bot personality
      */
     calculateTarget(botPlayer, allPlayers, gameWidth, gameHeight) {
-        // Find nearest player within detection range
+        // Find nearest HUMAN player within detection range (ignore other bots)
         let nearestPlayer = null;
         let nearestDistance = BOT_CONFIG.DETECTION_RANGE;
         
         for (let player of allPlayers) {
-            if (player.id === this.id || player.isBot) continue; // Skip self and other bots
+            if (player.id === this.id) continue; // Skip self
+            if (player.isBot) continue; // Ignore other bots to reduce clustering
             if (!player.cells || player.cells.length === 0) continue;
             
             const distance = Math.hypot(player.x - botPlayer.x, player.y - botPlayer.y);
@@ -159,17 +160,18 @@ class Bot {
     moveRandomly(botPlayer, gameWidth, gameHeight) {
         const now = Date.now();
         
-        // Update random target periodically
-        if (!this.randomTarget || now - this.lastRandomMove > BOT_CONFIG.RANDOM_MOVE_INTERVAL) {
+        // Update random target periodically OR if reached current target
+        const reachedTarget = this.randomTarget && 
+            Math.hypot(botPlayer.x - this.randomTarget.x, botPlayer.y - this.randomTarget.y) < 100;
+        
+        if (!this.randomTarget || now - this.lastRandomMove > BOT_CONFIG.RANDOM_MOVE_INTERVAL || reachedTarget) {
             this.lastRandomMove = now;
-            this.randomTarget = {
-                x: botPlayer.x + (Math.random() - 0.5) * BOT_CONFIG.RANDOM_MOVE_DISTANCE * 2,
-                y: botPlayer.y + (Math.random() - 0.5) * BOT_CONFIG.RANDOM_MOVE_DISTANCE * 2
-            };
             
-            // Keep within bounds
-            this.randomTarget.x = Math.max(50, Math.min(gameWidth - 50, this.randomTarget.x));
-            this.randomTarget.y = Math.max(50, Math.min(gameHeight - 50, this.randomTarget.y));
+            // Generate completely new random position (not relative to current)
+            this.randomTarget = {
+                x: Math.random() * (gameWidth - 100) + 50,
+                y: Math.random() * (gameHeight - 100) + 50
+            };
         }
         
         return this.randomTarget;
@@ -219,6 +221,10 @@ class BotManager {
         botPlayer.screenWidth = 1920; // Simulated screen size
         botPlayer.screenHeight = 1080;
         botPlayer.lastHeartbeat = Date.now();
+        
+        // Ensure unique hue for each bot (Player constructor sets random hue already)
+        // But we can override for variety
+        botPlayer.hue = Math.round(Math.random() * 360);
         
         // Initialize bot at spawn point
         const spawnPoint = generateSpawnpoint();
