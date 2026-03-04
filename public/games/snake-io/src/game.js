@@ -99,10 +99,18 @@ Game.prototype = {
         // Update minimap
         this.updateMinimap(this.game, this.minimapCtx);
         
-        // Update score display
+        // Update score display and notify parent window
         if (this.game.snakes[0]) {
-            document.getElementById('score-value').textContent = 
-                Math.floor(this.game.snakes[0].snakeLength);
+            var currentLength = Math.floor(this.game.snakes[0].snakeLength);
+            document.getElementById('score-value').textContent = currentLength;
+            
+            // Send real-time score updates to parent window
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'scoreUpdate',
+                    score: currentLength
+                }, '*');
+            }
         }
     },
     
@@ -122,6 +130,25 @@ Game.prototype = {
                 snake.headPath[i].x + Util.randomInt(-10,10),
                 snake.headPath[i].y + Util.randomInt(-10,10)
             );
+        }
+        
+        // If player died, send game end with final score
+        if (!snake.isBot) {
+            var finalScore = Math.floor(snake.snakeLength);
+            console.log('[Snake.io] Player died! Final length:', finalScore);
+            
+            // Send to parent window
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'gameEnd',
+                    score: finalScore
+                }, '*');
+            }
+            
+            // Also use Ginix Bridge if available
+            if (window.GinixBridge) {
+                window.GinixBridge.endGame(finalScore);
+            }
         }
         
         // Respawn bot after 3 seconds
