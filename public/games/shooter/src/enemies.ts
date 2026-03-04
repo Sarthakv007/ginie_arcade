@@ -42,9 +42,9 @@ export function getFreeEnemyId(enemies?: IEnemy[]) {
 
   const lastEnemy = enemies
     .filter(enemy => enemy.isActive)
-    .sort((enemyA, enemyB) => enemyB.emittedAt - enemyA.emittedAt)[0];
+    .sort((enemyA, enemyB) => (enemyB.emittedAt ?? 0) - (enemyA.emittedAt ?? 0))[0];
 
-  if (!lastEnemy || Date.now() - lastEnemy.emittedAt > lastEnemy.delay) {
+  if (!lastEnemy || Date.now() - (lastEnemy.emittedAt ?? 0) > lastEnemy.delay) {
     const freeEnemy = enemies
       .filter(enemy => !enemy.isUsed)
       .find(enemy => !enemy.isActive);
@@ -74,8 +74,6 @@ function _checkIfEnemyVanished(enemy: IEnemy) {
 function _getNewEnemyOpacity(enemy: IEnemy) {
   if (enemy.energy <= 0) {
     const { opacity } = enemy;
-
-    delete enemy.opacity;
 
     if (opacity <= 0) {
       return 0;
