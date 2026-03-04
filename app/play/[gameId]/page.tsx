@@ -34,6 +34,11 @@ const GAME_CONFIG: Record<string, { name: string; url: string; icon: string }> =
     url: '/games/snake-io/index.html',
     icon: '🐍',
   },
+  'the-house': {
+    name: 'The House',
+    url: '/games/the-house-game/index.html',
+    icon: '🏠',
+  },
 };
 
 export default function GamePlayer() {

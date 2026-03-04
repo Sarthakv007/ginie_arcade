@@ -35,6 +35,11 @@ export const GAME_RULES: Record<string, GameRules> = {
     minDuration: 5,
     maxScorePerSecond: 20,
   },
+  'the-house': {
+    maxScore: 500,
+    minDuration: 60,
+    maxScorePerSecond: 5,
+  },
 };
 
 export interface ValidationResult {

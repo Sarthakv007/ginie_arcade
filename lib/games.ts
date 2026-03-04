@@ -72,6 +72,18 @@ export const games: Game[] = [
     category: "Arcade",
     gamePath: "/games/snake-io/index.html",
   },
+  {
+    id: "the-house",
+    uuid: "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    title: "The House",
+    description: "A mysterious point-and-click adventure. Explore dark rooms, collect items, solve puzzles, and uncover the secrets within. Multiple endings await.",
+    icon: "Home",
+    color: "purple",
+    players: 0,
+    highScore: 0,
+    category: "Adventure",
+    gamePath: "/games/the-house-game/index.html",
+  },
 ]
 
 export function getGameById(id: string): Game | undefined {
