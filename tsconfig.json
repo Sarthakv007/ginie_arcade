@@ -29,5 +29,12 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "packages", "infra"]
+  "exclude": [
+    "node_modules",
+    "packages",
+    "infra",
+    "public/games/shooter/src",
+    "public/games/shooter/__tests__",
+    "public/games/shooter/__mocks__"
+  ]
 }
