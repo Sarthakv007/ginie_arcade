@@ -53,20 +53,47 @@ Game.prototype = {
         var snake = new PlayerSnake(this.game, 'circle', 0, 0, playerName);
         this.game.camera.follow(snake.head);
         
-        // Create 15 bot snakes
-        var botNames = [
+        // Expanded bot name pool for dynamic spawning
+        this.botNames = [
             'Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon',
             'Zeta', 'Theta', 'Lambda', 'Sigma', 'Omega',
-            'Phoenix', 'Dragon', 'Tiger', 'Eagle', 'Viper'
+            'Phoenix', 'Dragon', 'Tiger', 'Eagle', 'Viper',
+            'Cobra', 'Python', 'Anaconda', 'Mamba', 'Rattler',
+            'Nova', 'Blaze', 'Storm', 'Frost', 'Shadow',
+            'Phantom', 'Ghost', 'Wraith', 'Specter', 'Spirit',
+            'Titan', 'Atlas', 'Zeus', 'Thor', 'Odin',
+            'Ares', 'Hades', 'Poseidon', 'Apollo', 'Artemis',
+            'Nyx', 'Orion', 'Draco', 'Leo', 'Aquila',
+            'Hydra', 'Cerberus', 'Griffin', 'Basilisk', 'Chimera'
         ];
+        this.usedBotNames = [];
+        this.botSpawnCounter = 0;
         
-        for (var i = 0; i < 15; i++) {
-            var angle = (i / 15) * Math.PI * 2;
-            var distance = 400 + Math.random() * 400;
-            var x = Math.cos(angle) * distance;
-            var y = Math.sin(angle) * distance;
-            new BotSnake(this.game, 'circle', x, y, botNames[i]);
+        // Create 25 initial bot snakes
+        for (var i = 0; i < 25; i++) {
+            this.spawnBot();
         }
+        
+        // Set up periodic bot spawning to maintain population
+        var self = this;
+        this.botSpawnTimer = this.game.time.events.loop(Phaser.Timer.SECOND * 20, function() {
+            // Count current bots
+            var botCount = 0;
+            for (var i = 0; i < self.game.snakes.length; i++) {
+                if (self.game.snakes[i].isBot) botCount++;
+            }
+            
+            // Spawn new bots if count is below 20
+            var targetBots = 20 + Math.floor(self.game.time.totalElapsedSeconds() / 30);
+            if (targetBots > 40) targetBots = 40; // Cap at 40 bots
+            
+            if (botCount < targetBots) {
+                var spawnsNeeded = Math.min(3, targetBots - botCount);
+                for (var i = 0; i < spawnsNeeded; i++) {
+                    self.spawnBot();
+                }
+            }
+        }, this);
         
         // Initialize snake groups and collision
         for (var i = 0 ; i < this.game.snakes.length ; i++) {
@@ -114,6 +141,36 @@ Game.prototype = {
         }
     },
     
+    spawnBot: function() {
+        var angle = Math.random() * Math.PI * 2;
+        var distance = 400 + Math.random() * 600;
+        var x = Math.cos(angle) * distance;
+        var y = Math.sin(angle) * distance;
+        
+        // Get a bot name (reuse if necessary)
+        var name;
+        if (this.usedBotNames.length < this.botNames.length) {
+            // Find unused name
+            var availableNames = this.botNames.filter(function(n) {
+                return this.usedBotNames.indexOf(n) === -1;
+            }, this);
+            name = availableNames[Math.floor(Math.random() * availableNames.length)];
+        } else {
+            // All names used, add number suffix
+            name = this.botNames[this.botSpawnCounter % this.botNames.length] + this.botSpawnCounter;
+        }
+        
+        this.usedBotNames.push(name);
+        this.botSpawnCounter++;
+        
+        var bot = new BotSnake(this.game, 'circle', x, y, name);
+        bot.head.body.setCollisionGroup(this.snakeHeadCollisionGroup);
+        bot.head.body.collides([this.foodCollisionGroup]);
+        bot.addDestroyedCallback(this.snakeDestroyed, this);
+        
+        return bot;
+    },
+    
     initFood: function(x, y) {
         var f = new Food(this.game, x, y);
         f.sprite.body.setCollisionGroup(this.foodCollisionGroup);
@@ -151,16 +208,12 @@ Game.prototype = {
             }
         }
         
-        // Respawn bot after 3 seconds
+        // Respawn bot after 2 seconds (faster respawn to maintain population)
         if (snake.isBot) {
-            var game = this.game;
+            var self = this;
             setTimeout(function() {
-                var angle = Math.random() * Math.PI * 2;
-                var distance = 400 + Math.random() * 400;
-                var x = Math.cos(angle) * distance;
-                var y = Math.sin(angle) * distance;
-                new BotSnake(game, 'circle', x, y, snake.name);
-            }, 3000);
+                self.spawnBot();
+            }, 2000);
         }
     },
     
