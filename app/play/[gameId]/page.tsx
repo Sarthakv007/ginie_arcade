@@ -46,6 +46,7 @@ export default function GamePlayer() {
   const [nonce, setNonce] = useState<string | null>(null);
   const [startTime, setStartTime] = useState<number>(0);
   const [currentScore, setCurrentScore] = useState<number>(0);
+  const [finalScore, setFinalScore] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [gameEnded, setGameEnded] = useState(false);
@@ -338,9 +339,13 @@ export default function GamePlayer() {
                         if (gameId === 'neon-sky-runner' && currentScore === 0) {
                           const manualScore = prompt('Enter your Best score from the game:');
                           const score = manualScore ? parseInt(manualScore, 10) : 0;
-                          if (score > 0) setCurrentScore(score);
+                          if (score > 0) {
+                            setCurrentScore(score);
+                            setFinalScore(score);
+                          }
                           autoSubmitScore(score || 0, duration);
                         } else {
+                          setFinalScore(currentScore);
                           autoSubmitScore(currentScore, duration);
                         }
                       }}
@@ -391,7 +396,7 @@ export default function GamePlayer() {
                 {/* Score */}
                 <div>
                   <p className="text-sm text-gray-400">Final Score</p>
-                  <p className="text-5xl font-['Orbitron'] font-bold gradient-text">{currentScore}</p>
+                  <p className="text-5xl font-['Orbitron'] font-bold gradient-text">{finalScore || currentScore}</p>
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 text-sm">
@@ -423,7 +428,7 @@ export default function GamePlayer() {
                   <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
                     <p className="text-red-400 text-sm mb-2">{submitError}</p>
                     <button
-                      onClick={() => autoSubmitScore(currentScore, elapsedTime)}
+                      onClick={() => autoSubmitScore(finalScore || currentScore, elapsedTime)}
                       className="text-sm text-cyan-400 underline"
                     >
                       Retry submission
