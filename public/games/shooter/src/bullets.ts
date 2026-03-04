@@ -37,9 +37,9 @@ export function getFreeBulletId(bullets: IBullet[], isShoot: boolean) {
   const MIN_DELAY = 400;
   const lastBullet = bullets
     .filter(bullet => bullet.isActive)
-    .sort((bulletA, bulletB) => bulletB.emittedAt - bulletA.emittedAt)[0];
+    .sort((bulletA, bulletB) => (bulletB.emittedAt ?? 0) - (bulletA.emittedAt ?? 0))[0];
 
-  if (!lastBullet || Date.now() - lastBullet.emittedAt > MIN_DELAY) {
+  if (!lastBullet || Date.now() - (lastBullet.emittedAt ?? 0) > MIN_DELAY) {
     const freeBullet = bullets.find(bullet => !bullet.isActive);
 
     if (freeBullet) {
