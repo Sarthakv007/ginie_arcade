@@ -20,7 +20,35 @@ PlayerSnake = function(game, spriteKey, x, y, name) {
         spaceKey.onDown.remove(this.spaceKeyDown, this);
         spaceKey.onUp.remove(this.spaceKeyUp, this);
     }, this);
+    
+    // Add callback to submit XP to blockchain when player dies
+    this.addDestroyedCallback(this.submitXPOnDeath, this);
 }
+
+PlayerSnake.prototype.submitXPOnDeath = function() {
+    // Submit the final snake length as XP to the blockchain
+    var finalLength = Math.floor(this.snakeLength);
+    var xpEarned = finalLength;
+    
+    console.log('Game Over! Final Length:', finalLength);
+    console.log('Submitting XP to blockchain:', xpEarned);
+    
+    // Use Ginix Bridge to submit XP
+    if (window.GinixBridge && window.GinixBridge.submitXP) {
+        window.GinixBridge.submitXP(xpEarned)
+            .then(function(result) {
+                console.log('XP submitted successfully:', result);
+                alert('Game Over! Final Length: ' + finalLength + '\nXP Submitted: ' + xpEarned);
+            })
+            .catch(function(error) {
+                console.error('Error submitting XP:', error);
+                alert('Game Over! Final Length: ' + finalLength + '\nXP: ' + xpEarned + '\n(Blockchain submission failed)');
+            });
+    } else {
+        console.warn('Ginix Bridge not available');
+        alert('Game Over! Final Length: ' + finalLength + '\nXP Earned: ' + xpEarned);
+    }
+};
 
 PlayerSnake.prototype = Object.create(Snake.prototype);
 PlayerSnake.prototype.constructor = PlayerSnake;

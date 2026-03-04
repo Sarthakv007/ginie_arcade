@@ -108,6 +108,9 @@ Snake.prototype = {
         this.sectionGroup.add(sec);
         sec.sendToBack();
         sec.scale.setTo(this.scale);
+        
+        // Apply the snake's unique color as a tint
+        sec.tint = parseInt(this.color.replace('#', '0x'));
 
         this.sections.push(sec);
 
