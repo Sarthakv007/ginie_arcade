@@ -84,6 +84,18 @@ export const games: Game[] = [
     category: "Adventure",
     gamePath: "/games/the-house-game/index.html",
   },
+  {
+    id: "shooter",
+    uuid: "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+    title: "Shooter",
+    description: "Fast-paced top-down space shooter. Dodge hexagonal obstacles, blast asteroids, and rack up high scores in this neon-lit arcade action game.",
+    icon: "Rocket",
+    color: "cyan",
+    players: 0,
+    highScore: 0,
+    category: "Arcade",
+    gamePath: "/games/shooter/index.html",
+  },
 ]
 
 export function getGameById(id: string): Game | undefined {

@@ -30,6 +30,7 @@ const GAME_IDS: Record<string, number> = {
   'sudoku': 4,
   'snake-io': 5,
   'the-house': 6,
+  'shooter': 7,
   'session': 0,
   'xp': 0,
   'multi': 0,
@@ -45,6 +46,7 @@ const CATEGORY_TO_TYPE: Record<string, number> = {
   sudoku: ACHIEVEMENT_TYPES.highscore,
   snake: ACHIEVEMENT_TYPES.highscore,
   house: ACHIEVEMENT_TYPES.milestone,
+  shooter: ACHIEVEMENT_TYPES.highscore,
   multi: ACHIEVEMENT_TYPES.special,
 };
 
@@ -158,6 +160,7 @@ export async function mintScoreNFT(
       : gameId === 'sudoku' ? 'sudoku-500' 
       : gameId === 'snake-io' ? 'snake-50' 
       : gameId === 'the-house' ? 'house-explorer' 
+      : gameId === 'shooter' ? 'shooter-100' 
       : 'flappy-10';
     
     const metadata = {

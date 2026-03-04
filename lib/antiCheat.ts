@@ -40,6 +40,11 @@ export const GAME_RULES: Record<string, GameRules> = {
     minDuration: 60,
     maxScorePerSecond: 5,
   },
+  'shooter': {
+    maxScore: 10000,
+    minDuration: 10,
+    maxScorePerSecond: 100,
+  },
 };
 
 export interface ValidationResult {

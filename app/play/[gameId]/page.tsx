@@ -39,6 +39,11 @@ const GAME_CONFIG: Record<string, { name: string; url: string; icon: string }> =
     url: '/games/the-house-game/index.html',
     icon: '🏠',
   },
+  'shooter': {
+    name: 'Shooter',
+    url: '/games/shooter/index.html',
+    icon: '🚀',
+  },
 };
 
 export default function GamePlayer() {
