@@ -111,8 +111,6 @@ function computeBadges(player: PlayerData, highScores: Record<string, number>) {
   const s = player.sessionsPlayed;
   const x = player.xp;
   const f = highScores['flappy'] || 0;
-  const n = highScores['neon-sky-runner'] || 0;
-  const t = highScores['tilenova'] || 0;
   const su = highScores['sudoku'] || 0;
   const g = Object.keys(highScores).length;
 
@@ -127,13 +125,9 @@ function computeBadges(player: PlayerData, highScores: Record<string, number>) {
     { id: 'xp-1000', name: 'XP Master', description: 'Earn 1,000 XP', icon: '🏆', earned: x >= 1000, tier: 'gold' },
     { id: 'flappy-10', name: 'Pipe Dodger', description: 'Score 10+ in Flappy Bird', icon: '🐦', earned: f >= 10, tier: 'bronze' },
     { id: 'flappy-50', name: 'Flappy Master', description: 'Score 50+ in Flappy Bird', icon: '🦅', earned: f >= 50, tier: 'gold' },
-    { id: 'neon-1000', name: 'Neon Runner', description: 'Score 1,000+ in Neon Sky Runner', icon: '🚀', earned: n >= 1000, tier: 'bronze' },
-    { id: 'neon-10000', name: 'Sky Legend', description: 'Score 10,000+ in Neon Sky Runner', icon: '🌟', earned: n >= 10000, tier: 'gold' },
-    { id: 'tilenova-500', name: 'Circuit Breaker', description: 'Score 500+ in TileNova', icon: '⚡', earned: t >= 500, tier: 'bronze' },
-    { id: 'tilenova-5000', name: 'Circuit Surge Master', description: 'Score 5,000+ in TileNova', icon: '💎', earned: t >= 5000, tier: 'gold' },
     { id: 'sudoku-500', name: 'Puzzle Solver', description: 'Score 500+ in Sudoku: Roast Mode', icon: '🧩', earned: su >= 500, tier: 'bronze' },
     { id: 'sudoku-1500', name: 'Roast Survivor', description: 'Score 1,500+ in Sudoku: Roast Mode', icon: '🔥', earned: su >= 1500, tier: 'gold' },
-    { id: 'all-rounder', name: 'All-Rounder', description: 'Play all 4 games', icon: '🎯', earned: g >= 4, tier: 'silver' },
+    { id: 'all-rounder', name: 'All-Rounder', description: 'Play all games', icon: '🎯', earned: g >= 2, tier: 'silver' },
   ];
 
   return raw.map((b) => ({

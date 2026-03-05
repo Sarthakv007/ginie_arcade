@@ -10,16 +10,6 @@ export interface GameRules {
 }
 
 export const GAME_RULES: Record<string, GameRules> = {
-  'neon-sky-runner': {
-    maxScore: 1000000,
-    minDuration: 5,
-    maxScorePerSecond: 500,
-  },
-  'tilenova': {
-    maxScore: 100000,
-    minDuration: 30,
-    maxScorePerSecond: 100,
-  },
   'flappy': {
     maxScore: 500,
     minDuration: 5,

@@ -8,7 +8,7 @@ function formatWalletShort(addr?: string | null) {
 }
 
 /**
- * GET /api/leaderboard?gameId=neon-sky-runner&limit=100
+ * GET /api/leaderboard?gameId=flappy&limit=100
  * Get leaderboard for a game
  */
 export async function GET(request: NextRequest) {

@@ -108,8 +108,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Update player stats — award base XP scaled by score
-    // TileNova: 100 XP per level, others: score * 10
-    const baseXp = gameId === 'tilenova' ? Math.max(10, score * 100) : Math.max(10, score * 10);
+    const baseXp = Math.max(10, score * 10);
     await prisma.player.update({
       where: { walletAddress: wallet },
       data: {
@@ -203,8 +202,6 @@ export async function POST(request: NextRequest) {
 
     // Mint score NFT ONLY on new high score (prevent wallet spam)
     const GAME_NAMES: Record<string, string> = {
-      'neon-sky-runner': 'Neon Sky Runner',
-      'tilenova': 'TileNova: Circuit Surge',
       'flappy': 'Flappy Bird',
       'sudoku': 'Sudoku: Roast Mode',
       'snake-io': 'Snake.io',
@@ -357,14 +354,6 @@ async function updateQuestProgress(wallet: string, gameId: string, score: number
 async function checkRewardEligibility(wallet: string, gameId: string, score: number) {
   // Define reward rules
   const rewardRules: Record<string, Array<{ type: string; minScore: number; xp: number }>> = {
-    'neon-sky-runner': [
-      { type: 'NEON_BADGE', minScore: 2000, xp: 100 },
-      { type: 'SKY_MASTER', minScore: 5000, xp: 250 },
-    ],
-    'tilenova': [
-      { type: 'CIRCUIT_TROPHY', minScore: 5000, xp: 150 },
-      { type: 'QUANTUM_MASTER', minScore: 10000, xp: 300 },
-    ],
     'flappy': [
       { type: 'FLAPPY_ROOKIE', minScore: 10, xp: 50 },
       { type: 'PIPE_MASTER', minScore: 50, xp: 200 },
@@ -414,17 +403,13 @@ const BADGE_DEFS = [
   { id: 'xp-1000', name: 'XP Master', description: 'Earn 1,000 XP', tier: 'gold', category: 'xp', check: (_s: number, x: number) => x >= 1000, value: 1000 },
   { id: 'flappy-10', name: 'Pipe Dodger', description: 'Score 10+ in Flappy Bird', tier: 'bronze', category: 'flappy', check: (_s: number, _x: number, h: Record<string, number>) => (h['flappy'] || 0) >= 10, value: 10 },
   { id: 'flappy-50', name: 'Flappy Master', description: 'Score 50+ in Flappy Bird', tier: 'gold', category: 'flappy', check: (_s: number, _x: number, h: Record<string, number>) => (h['flappy'] || 0) >= 50, value: 50 },
-  { id: 'neon-1000', name: 'Neon Runner', description: 'Score 1,000+ in Neon Sky Runner', tier: 'bronze', category: 'neon', check: (_s: number, _x: number, h: Record<string, number>) => (h['neon-sky-runner'] || 0) >= 1000, value: 1000 },
-  { id: 'neon-10000', name: 'Sky Legend', description: 'Score 10,000+ in Neon Sky Runner', tier: 'gold', category: 'neon', check: (_s: number, _x: number, h: Record<string, number>) => (h['neon-sky-runner'] || 0) >= 10000, value: 10000 },
-  { id: 'tilenova-500', name: 'Circuit Breaker', description: 'Score 500+ in TileNova', tier: 'bronze', category: 'tilenova', check: (_s: number, _x: number, h: Record<string, number>) => (h['tilenova'] || 0) >= 500, value: 500 },
-  { id: 'tilenova-5000', name: 'Circuit Surge Master', description: 'Score 5,000+ in TileNova', tier: 'gold', category: 'tilenova', check: (_s: number, _x: number, h: Record<string, number>) => (h['tilenova'] || 0) >= 5000, value: 5000 },
   { id: 'sudoku-500', name: 'Puzzle Solver', description: 'Score 500+ in Sudoku: Roast Mode', tier: 'bronze', category: 'sudoku', check: (_s: number, _x: number, h: Record<string, number>) => (h['sudoku'] || 0) >= 500, value: 500 },
   { id: 'sudoku-1500', name: 'Roast Survivor', description: 'Score 1,500+ in Sudoku: Roast Mode', tier: 'gold', category: 'sudoku', check: (_s: number, _x: number, h: Record<string, number>) => (h['sudoku'] || 0) >= 1500, value: 1500 },
   { id: 'snake-50', name: 'Snake Hatchling', description: 'Reach length 50 in Snake.io', tier: 'bronze', category: 'snake', check: (_s: number, _x: number, h: Record<string, number>) => (h['snake-io'] || 0) >= 50, value: 50 },
   { id: 'snake-100', name: 'Serpent Slayer', description: 'Reach length 100 in Snake.io', tier: 'silver', category: 'snake', check: (_s: number, _x: number, h: Record<string, number>) => (h['snake-io'] || 0) >= 100, value: 100 },
   { id: 'snake-200', name: 'Viper King', description: 'Reach length 200 in Snake.io', tier: 'gold', category: 'snake', check: (_s: number, _x: number, h: Record<string, number>) => (h['snake-io'] || 0) >= 200, value: 200 },
   { id: 'snake-500', name: 'Anaconda Legend', description: 'Reach length 500 in Snake.io', tier: 'platinum', category: 'snake', check: (_s: number, _x: number, h: Record<string, number>) => (h['snake-io'] || 0) >= 500, value: 500 },
-  { id: 'all-rounder', name: 'All-Rounder', description: 'Play all games', tier: 'silver', category: 'multi', check: (_s: number, _x: number, h: Record<string, number>) => Object.keys(h).length >= 5, value: 5 },
+  { id: 'all-rounder', name: 'All-Rounder', description: 'Play all games', tier: 'silver', category: 'multi', check: (_s: number, _x: number, h: Record<string, number>) => Object.keys(h).length >= 3, value: 3 },
 ];
 
 /**

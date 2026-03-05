@@ -8,28 +8,6 @@ async function main() {
   // Seed Game Configs
   const games = [
     {
-      gameId: 'neon-sky-runner',
-      name: 'Neon Sky Runner',
-      slug: 'neon-sky-runner',
-      description: 'Race through neon-lit skies in this fast-paced endless runner.',
-      category: 'Endless Runner',
-      maxScore: 1000000,
-      minDuration: 5,
-      maxScorePerSecond: 500,
-      active: true,
-    },
-    {
-      gameId: 'tilenova',
-      name: 'TileNova Circuit Surge',
-      slug: 'tilenova',
-      description: 'Master the grid in this electrifying puzzle game.',
-      category: 'Puzzle',
-      maxScore: 100000,
-      minDuration: 30,
-      maxScorePerSecond: 100,
-      active: true,
-    },
-    {
       gameId: 'flappy',
       name: 'Flappy Bird',
       slug: 'flappy',
@@ -89,24 +67,6 @@ async function main() {
       xpReward: 500,
       requirementType: 'play_games',
       requirementValue: 20,
-      active: true,
-    },
-    {
-      id: 'neon-score-5000',
-      name: 'Neon Runner',
-      description: 'Score 5,000 or higher in Neon Sky Runner',
-      xpReward: 200,
-      requirementType: 'reach_score',
-      requirementValue: 5000,
-      active: true,
-    },
-    {
-      id: 'tilenova-score-5000',
-      name: 'Circuit Breaker',
-      description: 'Score 5,000 or higher in TileNova',
-      xpReward: 200,
-      requirementType: 'reach_score',
-      requirementValue: 5000,
       active: true,
     },
     {

@@ -24,8 +24,6 @@ const ACHIEVEMENT_TYPES = {
 
 // Game ID mapping (numeric for contract)
 const GAME_IDS: Record<string, number> = {
-  'neon-sky-runner': 1,
-  'tilenova': 2,
   'flappy': 3,
   'sudoku': 4,
   'snake-io': 5,
@@ -41,8 +39,6 @@ const CATEGORY_TO_TYPE: Record<string, number> = {
   session: ACHIEVEMENT_TYPES.milestone,
   xp: ACHIEVEMENT_TYPES.milestone,
   flappy: ACHIEVEMENT_TYPES.highscore,
-  neon: ACHIEVEMENT_TYPES.highscore,
-  tilenova: ACHIEVEMENT_TYPES.highscore,
   sudoku: ACHIEVEMENT_TYPES.highscore,
   snake: ACHIEVEMENT_TYPES.highscore,
   house: ACHIEVEMENT_TYPES.milestone,
@@ -155,9 +151,7 @@ export async function mintScoreNFT(
     const gameIndex = GAME_IDS[gameId] || 0;
 
     // Build on-chain metadata as a data-URI (lightweight, no IPFS needed for scores)
-    const badgeImage = gameId === 'neon-sky-runner' ? 'neon-1000' 
-      : gameId === 'tilenova' ? 'tilenova-500' 
-      : gameId === 'sudoku' ? 'sudoku-500' 
+    const badgeImage = gameId === 'sudoku' ? 'sudoku-500' 
       : gameId === 'snake-io' ? 'snake-50' 
       : gameId === 'the-house' ? 'house-explorer' 
       : gameId === 'shooter' ? 'shooter-100' 
