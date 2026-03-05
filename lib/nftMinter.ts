@@ -228,4 +228,3 @@ export async function mintScoreNFT(
 export function isMintingAvailable(): boolean {
   return !!(NFT_ADDRESS && NFT_ADDRESS.length >= 10 && SIGNER_KEY && SIGNER_KEY.length >= 64);
 }
-}
