@@ -44,6 +44,11 @@ const GAME_CONFIG: Record<string, { name: string; url: string; icon: string }> =
     url: '/games/shooter/index.html',
     icon: '🚀',
   },
+  'match-three': {
+    name: 'Match-Three Puzzle',
+    url: '/games/match-three/index.html',
+    icon: '🍭',
+  },
 };
 
 export default function GamePlayer() {
