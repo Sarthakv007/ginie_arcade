@@ -72,6 +72,18 @@ export const games: Game[] = [
     category: "Arcade",
     gamePath: "/games/shooter/index.html",
   },
+  {
+    id: "match-three",
+    uuid: "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+    title: "Match-Three Puzzle",
+    description: "Classic match-3 puzzle game with combos, special candies, and power-ups. Score as high as you can before time runs out! Your total XP is your final score.",
+    icon: "Puzzle",
+    color: "purple",
+    players: 0,
+    highScore: 0,
+    category: "Puzzle",
+    gamePath: "/games/match-three/index.html",
+  },
 ]
 
 export function getGameById(id: string): Game | undefined {

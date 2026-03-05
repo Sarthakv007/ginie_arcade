@@ -29,6 +29,7 @@ const GAME_IDS: Record<string, number> = {
   'snake-io': 5,
   'the-house': 6,
   'shooter': 7,
+  'match-three': 8,
   'session': 0,
   'xp': 0,
   'multi': 0,
@@ -155,6 +156,7 @@ export async function mintScoreNFT(
       : gameId === 'snake-io' ? 'snake-50' 
       : gameId === 'the-house' ? 'house-explorer' 
       : gameId === 'shooter' ? 'shooter-100' 
+      : gameId === 'match-three' ? 'all-rounder'
       : 'flappy-10';
     
     const metadata = {
@@ -225,4 +227,5 @@ export async function mintScoreNFT(
  */
 export function isMintingAvailable(): boolean {
   return !!(NFT_ADDRESS && NFT_ADDRESS.length >= 10 && SIGNER_KEY && SIGNER_KEY.length >= 64);
+}
 }

@@ -205,6 +205,7 @@ export async function POST(request: NextRequest) {
       'flappy': 'Flappy Bird',
       'sudoku': 'Sudoku: Roast Mode',
       'snake-io': 'Snake.io',
+      'match-three': 'Match-Three Puzzle',
     };
     let scoreNFT: { txHash: string; tokenId: number } | null = null;
     const isNewHighScore = !existingEntry || (existingEntry && score > existingEntry.score);

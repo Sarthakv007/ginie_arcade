@@ -218,6 +218,13 @@ function getRankLabel(score: number) {
 }
 
 // ─── COMPONENT ────────────────────────────────────────────────────────────────
+// @ts-ignore
+declare global {
+  interface Window {
+    GinixBridge: any;
+  }
+}
+
 export default function EnhancedGame() {
   const [board, setBoard] = useState(initBoard);
   const [sel, setSel] = useState<number[] | null>(null);
@@ -236,6 +243,10 @@ export default function EnhancedGame() {
   const [gameOver, setGameOver] = useState(false);
   const [won, setWon] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
+
+  // Ginix integration
+  const ginixBridge = useRef<any>(null);
+  const walletAddress = useRef<string>('');
 
   // Move cycle state (1→2→3)
   const [moveCycle, setMoveCycle] = useState(1);
@@ -293,6 +304,18 @@ export default function EnhancedGame() {
     }, 1000);
     return () => clearInterval(interval);
   }, [gameStarted, gameOver, won, busy]);
+
+  // Submit score when game ends
+  useEffect(() => {
+    if ((gameOver || won) && ginixBridge.current && score > 0) {
+      ginixBridge.current.submitScore(walletAddress.current, score)
+        .then((result: any) => {
+          if (result) {
+            console.log('[Match-Three] Score submitted successfully. XP earned:', result.xpEarned);
+          }
+        });
+    }
+  }, [gameOver, won, score]);
 
   // ── HINT TRIGGER ──
   const showHint = useCallback((hints: any[], idx: number) => {
@@ -587,9 +610,16 @@ export default function EnhancedGame() {
     swap(sr, sc, r, c);
   };
 
-  const startGame = () => {
+  const startGame = async () => {
     setGameStarted(true);
     audioManager.playBackgroundMusic();
+
+    // Initialize Ginix Bridge
+    if (window.GinixBridge) {
+      ginixBridge.current = new window.GinixBridge();
+      walletAddress.current = ginixBridge.current.getWalletAddress();
+      await ginixBridge.current.startSession(walletAddress.current);
+    }
   };
 
   const reset = () => {

@@ -35,6 +35,11 @@ export const GAME_RULES: Record<string, GameRules> = {
     minDuration: 10,
     maxScorePerSecond: 100,
   },
+  'match-three': {
+    maxScore: 10000,
+    minDuration: 30,
+    maxScorePerSecond: 200,
+  },
 };
 
 export interface ValidationResult {

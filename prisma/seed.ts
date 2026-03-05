@@ -29,6 +29,17 @@ async function main() {
       maxScorePerSecond: 50,
       active: true,
     },
+    {
+      gameId: 'match-three',
+      name: 'Match-Three Puzzle',
+      slug: 'match-three',
+      description: 'Classic match-3 puzzle game. Score earned is your total XP.',
+      category: 'Puzzle',
+      maxScore: 10000,
+      minDuration: 30,
+      maxScorePerSecond: 200,
+      active: true,
+    },
   ];
 
   for (const game of games) {
