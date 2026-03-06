@@ -69,8 +69,8 @@ Game.prototype = {
         this.usedBotNames = [];
         this.botSpawnCounter = 0;
         
-        // Create 5 initial bot snakes in corners
-        for (var i = 0; i < 5; i++) {
+        // Create 8 initial bot snakes in corners
+        for (var i = 0; i < 8; i++) {
             this.spawnBot();
         }
         
@@ -83,9 +83,9 @@ Game.prototype = {
                 if (self.game.snakes[i].isBot) botCount++;
             }
             
-            // Spawn new bots if count is below 10, one at a time
-            var targetBots = 10 + Math.floor(self.game.time.totalElapsedSeconds() / 60);
-            if (targetBots > 15) targetBots = 15; // Cap at 15 bots
+            // Spawn new bots if count is below 12, one at a time
+            var targetBots = 12 + Math.floor(self.game.time.totalElapsedSeconds() / 60);
+            if (targetBots > 20) targetBots = 20; // Cap at 20 bots
             
             if (botCount < targetBots) {
                 self.spawnBot();

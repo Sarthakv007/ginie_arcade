@@ -38,7 +38,7 @@ export default function(
     prevEnemiesStates.align('opacity', 0);
   }
 
-  if (clockGet() > 0.5) {
+  if (clockGet() > 2.5) {
     const prevEnemies = prevEnemiesStates.use() as IEnemy[];
     const prevState = prevGameStates.use();
     const prevBulletsState = prevBulletsStates.use();
