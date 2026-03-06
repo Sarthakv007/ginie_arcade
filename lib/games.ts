@@ -72,6 +72,30 @@ export const games: Game[] = [
     category: "Puzzle",
     gamePath: "/games/match-three/index.html",
   },
+  {
+    id: "match-three",
+    uuid: "f3a4b5c6-d7e8-4f9a-0b1c-2d3e4f5a6b7c",
+    title: "Match Three Mania",
+    description: "Classic match-3 puzzle gameplay. Swap colorful gems to create matches of 3 or more. Chain combos for higher scores!",
+    icon: "Gamepad2",
+    color: "pink",
+    players: 0,
+    highScore: 0,
+    category: "Puzzle",
+    gamePath: "/games/match-three/index.html",
+  },
+  {
+    id: "zombie-apocalypse",
+    uuid: "e4f5a6b7-c8d9-4e0a-1b2c-3d4e5f6a7b8c",
+    title: "Zombie Apocalypse",
+    description: "Survive the zombie invasion! Shoot zombies on a post-apocalyptic road. Click or press space to fire. Each kill earns 10 XP!",
+    icon: "Skull",
+    color: "purple",
+    players: 0,
+    highScore: 0,
+    category: "Shooter",
+    gamePath: "/games/zombie-apocalypse/index.html",
+  },
 ]
 
 export function getGameById(id: string): Game | undefined {

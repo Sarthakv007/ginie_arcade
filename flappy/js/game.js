@@ -38,7 +38,7 @@ const configurations = {
      gapHeight: 150,
      flapVelocityY: -320,
      maxFallVelocityY: 520,
-     gravityY: 900,
+     gravityY: 700,
      birdBodyRadius: 16
  }
 

@@ -39,6 +39,11 @@ const GAME_CONFIG: Record<string, { name: string; url: string; icon: string }> =
     url: '/games/match-three/index.html',
     icon: '🍭',
   },
+  'zombie-apocalypse': {
+    name: 'Zombie Apocalypse',
+    url: '/games/zombie-apocalypse/index.html',
+    icon: '🧟',
+  },
 };
 
 export default function GamePlayer() {
