@@ -14,20 +14,10 @@ const GAME_CONFIG: Record<string, { name: string; url: string; icon: string }> =
     url: '/games/neon-sky-runner/index.html',
     icon: '🚀',
   },
-  'tilenova': {
-    name: 'TileNova: Circuit Surge',
-    url: '/games/tilenova/index.html',
-    icon: '⚡',
-  },
   'flappy': {
     name: 'Flappy Bird',
     url: '/games/flappy/index.html',
     icon: '🐦',
-  },
-  'sudoku': {
-    name: 'Sudoku: Roast Mode',
-    url: '/games/sudoku/index.html',
-    icon: '🔥',
   },
   'snake-io': {
     name: 'Snake.io',
@@ -518,13 +508,25 @@ export default function GamePlayer() {
                   </div>
                 )}
 
-                {/* Actions */}
-                <div className="flex gap-3 pt-2">
-                  <button onClick={() => window.location.reload()} className="flex-1 cyber-gradient px-6 py-3 rounded-xl text-white font-bold hover:scale-105 transition-transform">
-                    Play Again
+                {/* Action buttons */}
+                <div className="grid grid-cols-3 gap-3 mt-4">
+                  <button
+                    onClick={() => router.push('/dashboard')}
+                    className="glass-card px-4 py-3 rounded-xl text-white font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2 text-sm"
+                  >
+                    <ArrowLeft className="w-4 h-4" /> Dashboard
                   </button>
-                  <button onClick={() => router.push('/dashboard')} className="flex-1 px-6 py-3 rounded-xl glass-card hover:bg-white/10 text-white transition-colors">
-                    Dashboard
+                  <button
+                    onClick={() => router.push('/library')}
+                    className="glass-card px-4 py-3 rounded-xl text-white font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2 text-sm"
+                  >
+                    <Trophy className="w-4 h-4" /> Library
+                  </button>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="cyber-gradient px-4 py-3 rounded-xl text-white font-bold hover:scale-105 transition-transform text-sm"
+                  >
+                    Play Again
                   </button>
                 </div>
               </div>

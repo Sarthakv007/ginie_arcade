@@ -69,29 +69,26 @@ Game.prototype = {
         this.usedBotNames = [];
         this.botSpawnCounter = 0;
         
-        // Create 25 initial bot snakes
-        for (var i = 0; i < 25; i++) {
+        // Create 5 initial bot snakes in corners
+        for (var i = 0; i < 5; i++) {
             this.spawnBot();
         }
         
         // Set up periodic bot spawning to maintain population
         var self = this;
-        this.botSpawnTimer = this.game.time.events.loop(Phaser.Timer.SECOND * 20, function() {
+        this.botSpawnTimer = this.game.time.events.loop(Phaser.Timer.SECOND * 30, function() {
             // Count current bots
             var botCount = 0;
             for (var i = 0; i < self.game.snakes.length; i++) {
                 if (self.game.snakes[i].isBot) botCount++;
             }
             
-            // Spawn new bots if count is below 20
-            var targetBots = 20 + Math.floor(self.game.time.totalElapsedSeconds() / 30);
-            if (targetBots > 40) targetBots = 40; // Cap at 40 bots
+            // Spawn new bots if count is below 10, one at a time
+            var targetBots = 10 + Math.floor(self.game.time.totalElapsedSeconds() / 60);
+            if (targetBots > 15) targetBots = 15; // Cap at 15 bots
             
             if (botCount < targetBots) {
-                var spawnsNeeded = Math.min(3, targetBots - botCount);
-                for (var i = 0; i < spawnsNeeded; i++) {
-                    self.spawnBot();
-                }
+                self.spawnBot();
             }
         }, this);
         
@@ -142,10 +139,18 @@ Game.prototype = {
     },
     
     spawnBot: function() {
-        var angle = Math.random() * Math.PI * 2;
-        var distance = 400 + Math.random() * 600;
-        var x = Math.cos(angle) * distance;
-        var y = Math.sin(angle) * distance;
+        // Spawn bots in corners of the world
+        var width = this.game.width;
+        var height = this.game.height;
+        var corners = [
+            { x: -width * 1.8, y: -height * 1.8 },  // Top-left
+            { x: width * 1.8, y: -height * 1.8 },   // Top-right
+            { x: -width * 1.8, y: height * 1.8 },   // Bottom-left
+            { x: width * 1.8, y: height * 1.8 }     // Bottom-right
+        ];
+        var corner = corners[Math.floor(Math.random() * corners.length)];
+        var x = corner.x + (Math.random() - 0.5) * 400;
+        var y = corner.y + (Math.random() - 0.5) * 400;
         
         // Get a bot name (reuse if necessary)
         var name;
@@ -208,12 +213,12 @@ Game.prototype = {
             }
         }
         
-        // Respawn bot after 2 seconds (faster respawn to maintain population)
+        // Respawn bot after 5 seconds (slower respawn)
         if (snake.isBot) {
             var self = this;
             setTimeout(function() {
                 self.spawnBot();
-            }, 2000);
+            }, 5000);
         }
     },
     

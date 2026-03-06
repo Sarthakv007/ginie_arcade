@@ -25,18 +25,6 @@ export const games: Game[] = [
     gamePath: "/games/flappy/index.html",
   },
   {
-    id: "sudoku",
-    uuid: "f7a2c391-8d4e-4b0a-a1c7-3e9f5d2b6a08",
-    title: "Sudoku: Roast Mode",
-    description: "Comedy-driven Sudoku with hilarious characters! Get roasted while solving puzzles. 60+ voice lines!",
-    icon: "Grid3x3",
-    color: "cyan",
-    players: 3412,
-    highScore: 2100,
-    category: "Puzzle",
-    gamePath: "/games/sudoku/index.html",
-  },
-  {
     id: "snake-io",
     uuid: "c8d4e5f6-9a1b-4c2d-8e3f-0a7b8c9d1e2f",
     title: "Snake.io",
