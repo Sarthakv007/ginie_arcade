@@ -40,6 +40,11 @@ export const GAME_RULES: Record<string, GameRules> = {
     minDuration: 30,
     maxScorePerSecond: 200,
   },
+  'zombie-apocalypse': {
+    maxScore: 5000,
+    minDuration: 10,
+    maxScorePerSecond: 50,
+  },
 };
 
 export interface ValidationResult {

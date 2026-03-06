@@ -206,6 +206,7 @@ export async function POST(request: NextRequest) {
       'sudoku': 'Sudoku: Roast Mode',
       'snake-io': 'Snake.io',
       'match-three': 'Match-Three Puzzle',
+      'zombie-apocalypse': 'Zombie Apocalypse',
     };
     let scoreNFT: { txHash: string; tokenId: number } | null = null;
     const isNewHighScore = !existingEntry || (existingEntry && score > existingEntry.score);
@@ -358,6 +359,11 @@ async function checkRewardEligibility(wallet: string, gameId: string, score: num
     'flappy': [
       { type: 'FLAPPY_ROOKIE', minScore: 10, xp: 50 },
       { type: 'PIPE_MASTER', minScore: 50, xp: 200 },
+    ],
+    'zombie-apocalypse': [
+      { type: 'ZOMBIE_HUNTER', minScore: 10, xp: 50 },
+      { type: 'ZOMBIE_SLAYER', minScore: 100, xp: 200 },
+      { type: 'APOCALYPSE_SURVIVOR', minScore: 300, xp: 500 },
     ],
   };
 
