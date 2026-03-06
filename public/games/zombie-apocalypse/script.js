@@ -354,6 +354,15 @@ function animate() {
             scoreElements[1].innerHTML = score;
             canvas.style.display = "none";
             result.style.display = "block";
+            
+            // Submit final score to blockchain via Ginix Bridge
+            if (window.GinixBridge) {
+                window.GinixBridge.submitXP(score).then(result => {
+                    console.log('Score submitted to blockchain:', result);
+                }).catch(err => {
+                    console.error('Failed to submit score:', err);
+                });
+            }
         }
 
         projectiles.forEach((projectile, projectileIndex) => {
@@ -387,6 +396,11 @@ function animate() {
                 // Score
                 score += 10
                 scoreElements[0].innerHTML = score;
+                
+                // Update arcade platform score in real-time
+                if (window.GinixBridge) {
+                    window.GinixBridge.updateScore(score);
+                }
             }
         });
     });
