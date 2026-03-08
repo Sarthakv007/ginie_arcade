@@ -203,7 +203,7 @@ export async function POST(request: NextRequest) {
     // Mint score NFT ONLY on new high score (prevent wallet spam)
     const GAME_NAMES: Record<string, string> = {
       'flappy': 'Flappy Bird',
-      'sudoku': 'Sudoku: Roast Mode',
+      'sudoku': 'Sudoku: Neural Grid',
       'snake-io': 'Snake.io',
       'match-three': 'Match-Three Puzzle',
       'zombie-apocalypse': 'Zombie Apocalypse',
@@ -359,6 +359,11 @@ async function checkRewardEligibility(wallet: string, gameId: string, score: num
     'flappy': [
       { type: 'FLAPPY_ROOKIE', minScore: 10, xp: 50 },
       { type: 'PIPE_MASTER', minScore: 50, xp: 200 },
+    ],
+    'sudoku': [
+      { type: 'PUZZLE_SOLVER', minScore: 500, xp: 100 },
+      { type: 'LOGIC_MASTER', minScore: 1000, xp: 300 },
+      { type: 'NEURAL_GENIUS', minScore: 1500, xp: 500 },
     ],
     'zombie-apocalypse': [
       { type: 'ZOMBIE_HUNTER', minScore: 10, xp: 50 },

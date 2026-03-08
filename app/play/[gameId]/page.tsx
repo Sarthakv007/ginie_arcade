@@ -34,6 +34,11 @@ const GAME_CONFIG: Record<string, { name: string; url: string; icon: string }> =
     url: '/games/shooter/index.html',
     icon: '🚀',
   },
+  'sudoku': {
+    name: 'Sudoku: Neural Grid',
+    url: '/games/sudoku/index.html',
+    icon: '🔢',
+  },
   'zombie-apocalypse': {
     name: 'Zombie Apocalypse',
     url: '/games/zombie-apocalypse/index.html',

@@ -61,6 +61,18 @@ export const games: Game[] = [
     gamePath: "/games/shooter/index.html",
   },
   {
+    id: "sudoku",
+    uuid: "f9a8b7c6-d5e4-4f3a-2b1c-0d9e8f7a6b5c",
+    title: "Sudoku: Neural Grid",
+    description: "Classic logic puzzle with a cyberpunk twist. Fill the 9x9 grid with numbers 1-9. Fast completion and fewer mistakes = higher scores!",
+    icon: "Grid3x3",
+    color: "cyan",
+    players: 0,
+    highScore: 0,
+    category: "Puzzle",
+    gamePath: "/games/sudoku/index.html",
+  },
+  {
     id: "zombie-apocalypse",
     uuid: "e4f5a6b7-c8d9-4e0a-1b2c-3d4e5f6a7b8c",
     title: "Zombie Apocalypse",
