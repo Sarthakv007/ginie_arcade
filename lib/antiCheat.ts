@@ -45,6 +45,11 @@ export const GAME_RULES: Record<string, GameRules> = {
     minDuration: 10,
     maxScorePerSecond: 50,
   },
+  '8ball-pool': {
+    maxScore: 10000,
+    minDuration: 60,
+    maxScorePerSecond: 100,
+  },
 };
 
 export interface ValidationResult {

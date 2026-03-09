@@ -34,6 +34,11 @@ const GAME_CONFIG: Record<string, { name: string; url: string; icon: string }> =
     url: '/games/shooter/index.html',
     icon: '🚀',
   },
+  '8ball-pool': {
+    name: '8 Ball Pool',
+    url: '/games/8ball-pool/index.html',
+    icon: '🎱',
+  },
   'sudoku': {
     name: 'Sudoku: Neural Grid',
     url: '/games/sudoku/index.html',

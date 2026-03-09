@@ -207,6 +207,7 @@ export async function POST(request: NextRequest) {
       'snake-io': 'Snake.io',
       'match-three': 'Match-Three Puzzle',
       'zombie-apocalypse': 'Zombie Apocalypse',
+      '8ball-pool': '8 Ball Pool',
     };
     let scoreNFT: { txHash: string; tokenId: number } | null = null;
     const isNewHighScore = !existingEntry || (existingEntry && score > existingEntry.score);
@@ -369,6 +370,11 @@ async function checkRewardEligibility(wallet: string, gameId: string, score: num
       { type: 'ZOMBIE_HUNTER', minScore: 10, xp: 50 },
       { type: 'ZOMBIE_SLAYER', minScore: 100, xp: 200 },
       { type: 'APOCALYPSE_SURVIVOR', minScore: 300, xp: 500 },
+    ],
+    '8ball-pool': [
+      { type: 'POOL_ROOKIE', minScore: 500, xp: 100 },
+      { type: 'BILLIARD_PRO', minScore: 2000, xp: 300 },
+      { type: 'POOL_CHAMPION', minScore: 5000, xp: 750 },
     ],
   };
 

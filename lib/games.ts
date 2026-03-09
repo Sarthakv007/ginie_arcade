@@ -61,6 +61,18 @@ export const games: Game[] = [
     gamePath: "/games/shooter/index.html",
   },
   {
+    id: "8ball-pool",
+    uuid: "a7b6c5d4-e3f2-4a1b-9c8d-7e6f5a4b3c2d",
+    title: "8 Ball Pool",
+    description: "Classic billiards simulation! Pot all your balls (solids or stripes) then sink the 8 ball to win. Earn 10 XP per point scored!",
+    icon: "Circle",
+    color: "purple",
+    players: 0,
+    highScore: 0,
+    category: "Sports",
+    gamePath: "/games/8ball-pool/index.html",
+  },
+  {
     id: "sudoku",
     uuid: "f9a8b7c6-d5e4-4f3a-2b1c-0d9e8f7a6b5c",
     title: "Sudoku: Neural Grid",
